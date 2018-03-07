@@ -10,7 +10,7 @@ class Tag extends Model
 	
 	public function articles()
 	{
-	  return $this->belongsToMany('App\Models\Article', 'a2_ts');
+	  return $this->belongsToMany('App\Models\Article', 'article_tags');
 	}
     //
 }

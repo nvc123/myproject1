@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateA2TsTable extends Migration
+class CreateArticleTagsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateA2TsTable extends Migration
      */
     public function up()
     {
-        Schema::create('a2_ts', function (Blueprint $table) {
+        Schema::create('article_tags', function (Blueprint $table) {
             $table->increments('id');
 	    $table->integer('tag_id');
 	    $table->integer('article_id');
@@ -27,6 +27,6 @@ class CreateA2TsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('a2_ts');
+        Schema::dropIfExists('article_tags');
     }
 }

@@ -30,7 +30,7 @@ class Article extends Model
 
 	public function tags()
 	{
-	  return $this->belongsToMany('App\Models\Tag', 'a2_ts');
+	  return $this->belongsToMany('App\Models\Tag', 'article_tags');
 	}
     //
 }

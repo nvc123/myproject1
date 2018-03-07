@@ -23,7 +23,6 @@ class CreateArticlesTable extends Migration
             $table->integer('user_id');
             $table->integer('file_id');
             $table->integer('views');
-            $table->integer('a2_t_id');
             $table->enum('status', ['new', 'moderated', 'published', 'not_published', 'locked']);
         });
     }
