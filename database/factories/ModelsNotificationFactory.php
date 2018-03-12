@@ -13,6 +13,6 @@ $factory->define(App\Models\Notification::class, function (Faker $faker) {
 	    }
         },
 	'type' => 0,
-	'payload' => '' // TODO: json
+	'payload' => '{ "article":1, "status":"published", "text":"test" } ' // TODO: json
     ];
 });

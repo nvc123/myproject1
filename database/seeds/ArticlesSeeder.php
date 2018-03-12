@@ -12,8 +12,11 @@ class ArticlesSeeder extends Seeder
     public function run()
     {
         //
-	factory(App\Model\Article::class, 30)->create()->each(function($u) {
-        	$u->tags()->save(App\Models\Tag::inRandomOrder()->limit(rand(1, 5)->get());
-    	}); 
+	/*
+	factory(App\Models\Article::class, 30)->create()->each(function($u) {
+        	$u->tags()->save(App\Models\Tag::inRandomOrder()->limit(rand(1, 5))->get());
+    	});
+	*/ 
+	factory(App\Models\Article::class, 30)->create();
     }
 }

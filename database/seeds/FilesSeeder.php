@@ -11,6 +11,6 @@ class FilesSeeder extends Seeder
      */
     public function run()
     {
-	factory(App\Model\File::class, 40)->create(); 
+	factory(App\Models\File::class, 10)->create(); 
     }
 }

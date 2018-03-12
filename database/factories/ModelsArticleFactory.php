@@ -13,6 +13,7 @@ $factory->define(App\Models\Article::class, function (Faker $faker) {
 	'category_id' => function () {
             return App\Models\Category::inRandomOrder()->firstOrCreate(['name' => 'Category1'])->id;
         },
+	
 	'user_id' => function () {
 	    $uu=App\Models\User::inRandomOrder()->first();
 	    if($uu==null){
@@ -21,9 +22,10 @@ $factory->define(App\Models\Article::class, function (Faker $faker) {
 		return $uu->id;
 	    }
         },
+	
 	'file_id' => function () {
-            return factory(App\Models\File::class)->create()->id;
+            return factory(App\Models\File::class)->create(['article_id' => 0])->id;
         },
-	'count' => 0
+	'comments_count' => 0
     ];
 });

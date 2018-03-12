@@ -11,7 +11,7 @@ class SubscribesSeeder extends Seeder
      */
     public function run()
     {
-        factory(App\Model\Subscribe::class, 20)->create()->each(function($u) {
+        factory(App\Models\Subscribe::class, 20)->create()->each(function($u) {
 		$r=rand(0, 2);
 		if($r===0){
         		$u->target()->save(App\Models\User::inRandomOrder()->first());
