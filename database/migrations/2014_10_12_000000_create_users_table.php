@@ -19,9 +19,11 @@ class CreateUsersTable extends Migration
             $table->string('email')->unique();
             $table->string('password');
             $table->text('text');
-            $table->boolean('locked');
-            $table->integer('count');
-            $table->enum('role', ['admin', 'moderator', 'user']);
+            $table->boolean('locked')->default(0);
+            $table->integer('count')->default(0);
+	    $table->string('activation_code')->nullable();
+	    $table->boolean('status')->default(0);
+            $table->enum('role', ['admin', 'moderator', 'user'])->default('user');
             $table->rememberToken();
         });
     }

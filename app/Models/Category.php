@@ -15,7 +15,7 @@ class Category extends Model
 
 	public function subscribes()
 	{
-	  return $this->morphMany('App\Models\Subscrabe', 'target');
+	  return $this->morphMany('App\Models\Subscribe', 'target');
 	}
     //
 }
