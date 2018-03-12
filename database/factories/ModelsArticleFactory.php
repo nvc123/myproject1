@@ -23,6 +23,7 @@ $factory->define(App\Models\Article::class, function (Faker $faker) {
         },
 	'file_id' => function () {
             return factory(App\Models\File::class)->create()->id;
-        }
+        },
+	'count' => 0
     ];
 });
