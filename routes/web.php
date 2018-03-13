@@ -11,19 +11,12 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', 'HomeController@index')->name('home');
 
 Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
-
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
 
 $this->get('/verify-user/{code}', 'Auth\RegisterController@activateUser')->name('activate.user');
-Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/settings', 'SettingsController@index')->name('settings');
+
+Route::post('/settings', 'SettingsController@set');

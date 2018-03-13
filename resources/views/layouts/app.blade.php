@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="{{ app()->getLocale() }}">
 <head>
     <meta charset="utf-8">
@@ -52,6 +52,7 @@
                                     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                                         @csrf
                                     </form>
+				    <a class="dropdown-item" href="{{ route('settings')}}" > Личный кабинет </a>
                                 </div>
                             </li>
                         @endguest

@@ -59,7 +59,7 @@ class RegisterController extends Controller
         try {
             $validatedData['password']        = bcrypt(array_get($validatedData, 'password'));
             $validatedData['activation_code'] = str_random(30).time();
-	    $validatedData['text'] = 'hello';
+	    $validatedData['text'] = null;
 	    
             $user                             = app(User::class)->create($validatedData);
         } catch (\Exception $exception) {
@@ -90,7 +90,7 @@ class RegisterController extends Controller
             logger()->error($exception);
             return "Whoops! something went wrong.";
         }
-        return redirect()->to('/home');
+        return redirect()->to('/');
     }
 
     /**
@@ -117,7 +117,7 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
         return User::create([
-            'name' => $data['name'],
+            'name' => 'error',
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
