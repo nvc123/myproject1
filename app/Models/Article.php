@@ -7,6 +7,7 @@ use Illuminate\Database\Eloquent\Model;
 class Article extends Model
 {
 	public $timestamps = false;
+	protected $guarded = ['id'];
 	
 	public function files()
 	{
@@ -18,14 +19,26 @@ class Article extends Model
 	  return $this->hasMany('App\Models\Comment');
 	}
 
+	public function incrCommentCount()
+	{
+	  $this->comments_count++;
+	  $this->timestamps = false;
+	  $this->save();
+	}
+
 	public function author()
 	{
-	  return $this->hasOne('App\Models\User');
+	  return $this->belongsTo(\App\Models\User::class, 'user_id');
+	}
+
+	public function category()
+	{
+	  return $this->belongsTo('App\Models\Category');
 	}
 
 	public function foto()
 	{
-	  return $this->hasOne('App\Models\File');
+	  return $this->belongsTo(\App\Models\File::class, 'file_id');
 	}
 
 	public function tags()

@@ -11,6 +11,7 @@ $factory->define(App\Models\User::class, function (Faker $faker) {
 	'locked' => false,
 	'count' => 0,
 	'role' => 'user',
+	'status' => true,
         'remember_token' => str_random(10)
     ];
 });

@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Article;
+use App\Models\User;
+use App\Models\Notification;
+
 
 class SettingsController extends Controller
 {
@@ -18,15 +22,14 @@ class SettingsController extends Controller
     {
 	$user = Auth::user();
         return view('settings', [
-				'name' => $user->name,
-				'email' => $user->email,
-				'text' => $user->text
+		'name' => $user->name,
+		'email' => $user->email,
+		'text' => $user->text
 				]); 
     } 
 
     protected function set(Request $request)
     {
-        /** @var User $user */
         $validatedData = $request->validate([
             'name'     => 'required|string|max:255',
             'email'    => 'required|string|email|max:255',
@@ -40,4 +43,31 @@ class SettingsController extends Controller
 	$user->save();
         return redirect()->back();
     }
+
+    protected function articles()
+    {
+	
+    }
+    
+
+    protected function getNotifications()
+    {
+	$user = Auth::user();
+        //$notifications=$user->notifications; don't work 
+	$notifications=Notification::where('user_id', $user->id)->get(); // TODO: костыль
+	return view('user.notifications', ['notifications' => $notifications,
+					   'title' => 'Уведомления']);
+    }
+
+    protected function removeNotification($id)
+    {
+	$user = Auth::user();
+        $notification=Notification::find($id);
+	if($notification->receiver->id===$user->id){
+	    $notification->delete();
+	}
+	return redirect()->back();
+    }
+
+
 }

@@ -20,7 +20,7 @@ class User extends Authenticatable
 
 	public function notifications()
 	{
-	  return $this->hasMany('App\Models\Notification');
+	  return $this->hasMany(\App\Models\Notification::class);
 	}
 
 	public function targets()
@@ -37,5 +37,13 @@ class User extends Authenticatable
 	{
 	  return $this->morphMany('App\Models\Subscribe', 'target');
 	}
+
+	public function incrArticlesCount()
+	{
+	  $this->count++;
+	  $this->timestamps = false;
+	  $this->save();
+	}
+
     //
 }

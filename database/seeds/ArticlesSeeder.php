@@ -12,11 +12,13 @@ class ArticlesSeeder extends Seeder
     public function run()
     {
         //
-	/*
-	factory(App\Models\Article::class, 30)->create()->each(function($u) {
-        	$u->tags()->save(App\Models\Tag::inRandomOrder()->limit(rand(1, 5))->get());
+	
+	factory(App\Models\Article::class, 300)->create()->each(function($u) {
+		$tags=App\Models\Tag::inRandomOrder()->limit(rand(1, 5))->get();
+        	$u->tags()->saveMany($tags);
+		$files=factory(App\Models\File::class, 10)->create(['article_id' => $u->id]);
     	});
-	*/ 
-	factory(App\Models\Article::class, 30)->create();
+	 
+	//factory(App\Models\Article::class, 30)->create();
     }
 }

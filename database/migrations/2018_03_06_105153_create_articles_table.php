@@ -22,8 +22,8 @@ class CreateArticlesTable extends Migration
             $table->dateTime('date');
             $table->integer('user_id');
             $table->integer('file_id');
-            $table->integer('views');
-	    $table->integer('comments_count');
+            $table->integer('views')->default(0);
+	    $table->integer('comments_count')->default(0);
             $table->enum('status', ['new', 'moderated', 'published', 'not_published', 'locked']);
         });
     }

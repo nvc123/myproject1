@@ -9,11 +9,15 @@ $factory->define(App\Models\Article::class, function (Faker $faker) {
 	'description' => $faker->paragraph,
 	'views' => 0,
 	'date' => new DateTime(),
-	'status' => 'new',
+	'status' => 'published',
 	'category_id' => function () {
-            return App\Models\Category::inRandomOrder()->firstOrCreate(['name' => 'Category1'])->id;
+            $uu=App\Models\Category::inRandomOrder()->first();
+	    if($uu==null){
+            	return factory(App\Models\Category::class)->create()->id;
+	    }else{
+		return $uu->id;
+	    }
         },
-	
 	'user_id' => function () {
 	    $uu=App\Models\User::inRandomOrder()->first();
 	    if($uu==null){
