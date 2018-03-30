@@ -32,6 +32,7 @@ class RegisterController extends Controller
      */
     protected $redirectTo = '/home';
 
+
     /**
      * Create a new controller instance.
      *
@@ -40,7 +41,9 @@ class RegisterController extends Controller
     public function __construct()
     {
         $this->middleware('guest');
+
     }
+
 
     /**
      * Register new account.
@@ -58,17 +61,20 @@ class RegisterController extends Controller
         ]);
         try {
             $validatedData['password']        = bcrypt(array_get($validatedData, 'password'));
-            $validatedData['activation_code'] = str_random(30).time();
-	    $validatedData['text'] = null;
-	    
+            $validatedData['activation_code'] = str_random(30) . time();
+            $validatedData['text'] = null;
+        
             $user                             = app(User::class)->create($validatedData);
         } catch (\Exception $exception) {
             logger()->error($exception);
             return redirect()->back()->with('message', $exception->getMessage());
         }
+
         $user->notify(new UserRegisteredSuccessfully($user));
         return redirect()->back()->with('message', 'Successfully created a new account. Please check your email and activate your account.');
+
     }
+
 
     /**
      * Activate the user with given activation code.
@@ -82,6 +88,7 @@ class RegisterController extends Controller
             if (!$user) {
                 return "The code does not exist for any user in our system.";
             }
+
             $user->status          = 1;
             $user->activation_code = null;
             $user->save();
@@ -90,8 +97,11 @@ class RegisterController extends Controller
             logger()->error($exception);
             return "Whoops! something went wrong.";
         }
+
         return redirect()->to('/');
+
     }
+
 
     /**
      * Get a validator for an incoming registration request.
@@ -106,7 +116,9 @@ class RegisterController extends Controller
             'email' => 'required|string|email|max:255|unique:users',
             'password' => 'required|string|min:6|confirmed',
         ]);
+
     }
+
 
     /**
      * Create a new user instance after a valid registration.
@@ -121,5 +133,8 @@ class RegisterController extends Controller
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+
     }
+
+
 }

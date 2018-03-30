@@ -12,17 +12,23 @@ use Illuminate\Database\Eloquent\Model;
 */
 class Subscribe extends Model
 {
-	public $timestamps = false;
-	
-	public function user()
-	{
-	  return $this->hasOne('App\Models\User');
-	}
-	
-	public function target()
-	{
-	  return $this->morphTo();
-	}
-	
+
+    public $timestamps = false;
+
+    
+    public function user()
+    {
+        return $this->hasOne('App\Models\User');
+
+    }
+
+
+    public function target()
+    {
+        return $this->morphTo();
+
+    }
+
+
     //
 }

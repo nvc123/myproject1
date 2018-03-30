@@ -28,6 +28,7 @@ class LoginController extends Controller
      */
     protected $redirectTo = '/';
 
+
     /**
      * Create a new controller instance.
      *
@@ -36,20 +37,24 @@ class LoginController extends Controller
     public function __construct()
     {
         $this->middleware('guest')->except('logout');
+
     }
+
 
     //parent::showField();
     /*
     public function login(Request $request)
     {
-	$test0=$this->credentials($request);
+    $test0=$this->credentials($request);
         return view('auth.login', ['message' => $test0]);
     }
-*/
+    */
 
-        protected function credentials(Request $request)
+    protected function credentials(Request $request)
     {
         return $request->only($this->username(), 'password') + ['status' => true];
-    }  
-  
+
+    }
+
+
 }

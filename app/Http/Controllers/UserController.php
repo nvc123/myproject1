@@ -13,14 +13,19 @@ class UserController extends Controller
     public function __construct()
     {
         $this->middleware('auth');
-	$this->middleware('first');
+        $this->middleware('first');
+
     }
+
 
     public function index()
     {
-	//от {{$article->author()->name}} в категории {{$article->category()->name}}
-	return view('article.test', []); 
+        //от {{$article->author()->name}} в категории {{$article->category()->name}}
+        return view('article.test', []);
+
     }
+
+
     /**
      * Show the application dashboard.
      *
@@ -28,17 +33,20 @@ class UserController extends Controller
      */
     public function get($id)
     {
-	$user=User::find($id);
-	
+        $user = User::find($id);
+    
         return view('user.view', [
-		'user' => $user,
-		'title' => 'Профиль пользователя '.$user->name]); 
+        'user' => $user,
+        'title' => 'Профиль пользователя ' . $user->name]);
+
     }
+
+
 }
 /*
-	<select class="js-example-basic-multiple input-medium" name="tags[]" multiple="multiple">
-	    @foreach($alltags as $tag)
-		  <option value="{{$tag->id}}">{{$tag->name}}</option>
-	    @endforeach  	  
-	</select>
+    <select class="js-example-basic-multiple input-medium" name="tags[]" multiple="multiple">
+        @foreach($alltags as $tag)
+          <option value="{{$tag->id}}">{{$tag->name}}</option>
+        @endforeach
+    </select>
 */

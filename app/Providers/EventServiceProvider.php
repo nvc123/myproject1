@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\Auth;
 
 class EventServiceProvider extends ServiceProvider
 {
+
     /**
      * The event listener mappings for the application.
      *
@@ -24,6 +25,7 @@ class EventServiceProvider extends ServiceProvider
         ],
     ];
 
+
     /**
      * Register any events for your application.
      *
@@ -32,17 +34,20 @@ class EventServiceProvider extends ServiceProvider
     public function boot()
     {
         parent::boot();
-	Comment::created(function($comment){
-	    $article=$comment->article;
-	    $article->incrCommentCount();
-	    $user = $article->author;
-	    Notification::create(['user_id' => $user->id, 'type' => 1, 'payload' => '{ "article":'.$article->id.'}']);
-	});
-	Article::created(function($article){
-	    $user=$article->author;
-	    $user->incrArticlesCount();
-	});
+        Comment::created(function ($comment) {
+            $article = $comment->article;
+            $article->incrCommentCount();
+            $user = $article->author;
+            Notification::create(['user_id' => $user->id, 'type' => 1, 'payload' => '{ "article":' . $article->id . '}']);
+        });
+        Article::created(function ($article) {
+            $user = $article->author;
+            $user->incrArticlesCount();
+        });
 
         //
+
     }
+
+
 }

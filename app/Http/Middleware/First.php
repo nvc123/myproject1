@@ -8,7 +8,9 @@ use Illuminate\Support\Facades\Auth;
 
 class First
 {
-/**
+
+
+    /**
      * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
@@ -23,5 +25,8 @@ class First
         }
 
         return $next($request);
+
     }
+
+
 }

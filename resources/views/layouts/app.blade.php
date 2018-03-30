@@ -124,7 +124,7 @@ function getUrlParameter(sParam) {
                 </div>
         </nav>
 	</div>
-        <main class="py-4">
+        <main class="py-4" style="margin-top:20px">
             @yield('content')
         </main>
     </div>

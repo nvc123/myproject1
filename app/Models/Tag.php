@@ -6,11 +6,16 @@ use Illuminate\Database\Eloquent\Model;
 
 class Tag extends Model
 {
-	public $timestamps = false;
-	
-	public function articles()
-	{
-	  return $this->belongsToMany('App\Models\Article', 'article_tags');
-	}
+
+    public $timestamps = false;
+
+    
+    public function articles()
+    {
+        return $this->belongsToMany('App\Models\Article', 'article_tags');
+
+    }
+
+
     //
 }

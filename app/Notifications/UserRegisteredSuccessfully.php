@@ -16,6 +16,7 @@ class UserRegisteredSuccessfully extends Notification
      * @var User
      */
     protected $user;
+
     
      /**
      * Create a new notification instance.
@@ -25,7 +26,9 @@ class UserRegisteredSuccessfully extends Notification
     public function __construct(User $user)
     {
         $this->user = $user;
+
     }
+
 
     /**
      * Get the notification's delivery channels.
@@ -36,7 +39,9 @@ class UserRegisteredSuccessfully extends Notification
     public function via($notifiable)
     {
         return ['mail'];
+
     }
+
 
     /**
      * Get the mail representation of the notification.
@@ -46,13 +51,10 @@ class UserRegisteredSuccessfully extends Notification
      */
     public function toMail($notifiable)
     {
-        return (new MailMessage)
-            ->subject('Successfully created new account')
-            ->greeting(sprintf('Hello %s', $this->user->name))
-            ->line('You have successfully registered to our system. Please activate your account.')
-            ->action('Click Here', route('activate.user', $this->user->activation_code))
-            ->line('Thank you for using our application!');
+        return (new MailMessage)->subject('Successfully created new account')->greeting(sprintf('Hello %s', $this->user->name))->line('You have successfully registered to our system. Please activate your account.')->action('Click Here', route('activate.user', $this->user->activation_code))->line('Thank you for using our application!');
+
     }
+
 
     /**
      * Get the array representation of the notification.
@@ -65,5 +67,8 @@ class UserRegisteredSuccessfully extends Notification
         return [
             //
         ];
+
     }
+
+
 }
