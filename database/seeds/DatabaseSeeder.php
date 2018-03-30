@@ -18,7 +18,7 @@ class DatabaseSeeder extends Seeder
 	$this->call(ArticlesSeeder::class);
 	$this->call(FilesSeeder::class);
 	$this->call(CommentsSeeder::class);
-	$this->call(NotificationsSeeder::class);
+	//$this->call(NotificationsSeeder::class);
 	$this->call(SubscribesSeeder::class);
     }
 }

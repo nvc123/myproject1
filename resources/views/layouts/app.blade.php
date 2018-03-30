@@ -13,15 +13,15 @@
     <!-- Styles -->
     <link href="{{ asset('css/app.css') }}" rel="stylesheet">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
-    <script src="/js/lightGallery.js"></script>
         <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}"></script>
     <script type="text/javascript" src="//cdn.jsdelivr.net/momentjs/latest/moment.min.js"></script>
     <script type="text/javascript" src="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.js"></script>
     <link rel="stylesheet" type="text/css" href="//cdn.jsdelivr.net/bootstrap.daterangepicker/2/daterangepicker.css" />
-    <link  rel="stylesheet" href="css/lightGallery.css"/>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.6-rc.0/js/select2.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.min.js"></script>    
+<link href="https://cdnjs.cloudflare.com/ajax/libs/ekko-lightbox/5.3.0/ekko-lightbox.css" rel="stylesheet" />
 <script type="text/javascript">
 // TODO: Быдлокод
 function getUrlParameter(sParam) {
@@ -89,6 +89,13 @@ function getUrlParameter(sParam) {
 				Категории
                             </a>
 			</li>
+			@if (Auth::user()->role=='moderator' || Auth::user()->role=='admin')
+			<li class="nav-item dropdown">
+			    <a class="nav-link" href="{{route('moderator')}}" role="button" aria-haspopup="true" aria-expanded="false">
+				Модерация
+                            </a>
+			</li>
+			@endif
 			@yield('nav')
                     </ul>
 

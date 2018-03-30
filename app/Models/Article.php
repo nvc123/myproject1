@@ -14,10 +14,13 @@ class Article extends Model
     
     public function files()
     {
-        return $this->hasMany('App\Models\File');
-
+        return $this->hasMany('App\Models\File')->where('name', 'not like', '%.png');
     }
 
+    public function imgs()
+    {
+        return $this->hasMany('App\Models\File')->where('name', 'like', '%.png');
+    }
 
     public function comments()
     {

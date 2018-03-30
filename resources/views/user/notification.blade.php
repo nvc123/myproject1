@@ -15,11 +15,16 @@
 		<div class="card-title">
 		    <h4>Статус вашей статьи был изменён</h4>
     		</div>
-		<a href="{{route('articles')}}/{{$jsonObj['article']}}">Ваша статья
+		<a href="{{route('articles')}}/{{$jsonObj['article']}}">Ваша статья</a>
 		@if ($jsonObj['status']=='published')
-		     Была опубликована
+		     была опубликована
 		@endif 
-		</a>
+		@if ($jsonObj['status']=='not_published')
+		     не была опубликована по причине: {{$jsonObj['text']}}
+		@endif
+		@if ($jsonObj['status']=='locked')
+		     была заблокирована по причине: {{$jsonObj['text']}}
+		@endif
 	    @endif
 	    @if ($notification->type==1)
 		<div class="card-title">

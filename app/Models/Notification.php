@@ -11,7 +11,12 @@ class Notification extends Model
 
     protected $guarded = ['id'];
 
-    
+/*
+ids:
+0 - article status changed { "article": id, "status": status , "text": comment  }
+1 - new comment { "article": id}
+*/
+        
     public function receiver()
     {
         return $this->belongsTo(\App\Models\User::class, 'user_id');

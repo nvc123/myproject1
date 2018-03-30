@@ -37,8 +37,26 @@ Route::get('/user/{id}', 'UserController@get');
 
 Route::get('/settings/notifications', 'SettingsController@getNotifications')->name('notifications');
 
+Route::get('/settings/remove_all_notifications', 'SettingsController@removeAllNotifications')->name('remove_all_notifications');
+
 Route::get('/settings/notifications/{id}', 'SettingsController@removeNotification');
 
 Route::get('/articles/new', 'ArticleController@createArticlePage');
 
 Route::post('/articles/new', 'ArticleController@createArticle');
+
+Route::get('/articles/moderated/{id}', 'ArticleController@statusModerated')->name('moderated');
+
+Route::get('/moderator', 'ModeratorController@index')->name('moderator');
+
+Route::get('/moderator/published/{id}', 'ModeratorController@statusPublished')->name('published');
+
+Route::get('/moderator/not_published/{id}', 'ModeratorController@statusNotPublished')->name('not_published');
+
+Route::get('/moderator/locked/{id}', 'ModeratorController@statusLocked')->name('locked');
+
+Route::get('/articles/edit/{id}', 'ArticleController@editArticlePage')->name('article_edit');
+
+Route::post('/articles/edit/{id}', 'ArticleController@postArticle');
+
+Route::get('/articles/remove/{id}', 'ArticleController@removeArticle')->name('article_remove');

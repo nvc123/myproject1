@@ -66,6 +66,14 @@ class SettingsController extends Controller
 
     }
 
+    protected function removeAllNotifications()
+    {
+        $user = Auth::user();
+        $notifications = Notification::where('user_id', $user->id)->delete();
+        return redirect()->back();
+
+    }
+
 
     protected function removeNotification($id)
     {
