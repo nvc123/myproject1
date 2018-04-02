@@ -22,7 +22,7 @@ class ArticleExist
     public function handle($request, Closure $next, $guard = null)
     {
 	$id=$request->route('id');
-        if ($id!=null) {
+        if ($id!=null&&$id!=0) {
 	    $article=Article::find($id);
 	    if($article==null){
             	return redirect('/home'); //TODO: error

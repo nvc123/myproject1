@@ -11,11 +11,11 @@
                             {{ session('status') }}
                         </div>
                     @endif
-		    <div class="container row card-title">
-    			<h4 align="center">{{$user->name}}</h4>
-		    </div>
-		    <p class="card-text">{{$user->text}}</p>
-		    <h4 class="card-text" align="center">Статьи({{$user->count}})</h4>
+		    <a href="{{route('article_create')}}" class="btn btn-success float-right clickable close-icon" data-effect="fadeOut">
+	    		<span aria-hidden="true">Добавить статью</span>
+	    	    </a>
+		    <h1 class="bd-title" id="content" align="center" style="white-space:pre-wrap">{{$title}}</h1>
+	    
 		    @include('article.list')
 		</div>
 	    </div>

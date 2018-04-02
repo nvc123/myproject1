@@ -159,8 +159,10 @@ class ArticleController extends Controller
 	    	$ffile = File::create(['name' => $file0->getClientOriginalName(), 'article_id' => $id]);
 	    }
 	}
-	$article->tags()->detach();
-        $article->tags()->saveMany($tags);
+	if($tags!=null){
+            $article->tags()->detach();
+	    $article->tags()->saveMany($tags);
+	}
 	return redirect('/article/' . $article->id);
 
     }

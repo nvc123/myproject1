@@ -89,7 +89,7 @@ function getUrlParameter(sParam) {
 				Категории
                             </a>
 			</li>
-			@if (Auth::user()->role=='moderator' || Auth::user()->role=='admin')
+			@if (Auth::user()!=null&& (Auth::user()->role=='moderator' || Auth::user()->role=='admin'))
 			<li class="nav-item dropdown">
 			    <a class="nav-link" href="{{route('moderator')}}" role="button" aria-haspopup="true" aria-expanded="false">
 				Модерация
@@ -113,6 +113,7 @@ function getUrlParameter(sParam) {
 
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="{{ route('settings')}}" > Личный кабинет </a>
+				    <a class="dropdown-item" href="{{ route('my_articles')}}" > Мои статьи </a>
 				    <a class="dropdown-item" href="{{ route('notifications')}}" > Уведомления </a>
                                     <a class="dropdown-item" href="{{ route('logout') }}"
                                        onclick="event.preventDefault();

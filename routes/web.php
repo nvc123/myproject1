@@ -41,7 +41,7 @@ Route::get('/settings/remove_all_notifications', 'SettingsController@removeAllNo
 
 Route::get('/settings/notifications/{id}', 'SettingsController@removeNotification');
 
-Route::get('/articles/new', 'ArticleController@createArticlePage');
+Route::get('/articles/new', 'ArticleController@createArticlePage')->name('article_create');
 
 Route::post('/articles/new', 'ArticleController@createArticle');
 
@@ -60,3 +60,5 @@ Route::get('/articles/edit/{id}', 'ArticleController@editArticlePage')->name('ar
 Route::post('/articles/edit/{id}', 'ArticleController@postArticle');
 
 Route::get('/articles/remove/{id}', 'ArticleController@removeArticle')->name('article_remove');
+
+Route::get('/settings/articles', 'UserController@myArticles')->name('my_articles');
