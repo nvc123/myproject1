@@ -6,6 +6,10 @@ use Illuminate\Http\Request;
 use App\Models\Article;
 use App\Models\Category;
 use App\Http\Controllers\HomeController;
+use App\Models\Tag;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\DB;
+use App\Models\User;
 
 class CategoryController extends Controller
 {
@@ -22,14 +26,59 @@ class CategoryController extends Controller
     }
 
 
-    public function articles($id)
+    public function articles($id, Request $request)
     {
         $category = Category::find($id);
-        $articles = Article::where('status', 'published')->where('id', $id)->paginate(HomeController::ARITCLES_PER_PAGE);
+        $mquery = $category->articles()->where('status', 'published');
+	$mquery = HomeController::filters($request, $mquery);
+	$articles = $mquery->paginate(HomeController::ARITCLES_PER_PAGE);
+	$page = $request['page'];
+        if ($page == null) {
+            $page = 1;
+        }
+	$alltags = Tag::all();
+        $name = $request['name'];
+        $date = $request['daterange'];
+        $username = $request['username'];
+        $texttags = '';
+        $ids = $request['tags'];
+	if ($ids != null && count($ids)>0){
+            $tags = Tag::find($ids);
+	    $texttags = $tags->implode('id', ',');
+	}
+        
+	if ($request->ajax()) {
+            if ($articles != null && count($articles) > 0) {
+                return view('article.ajax', [
+                    'articles' => $articles,
+                    'page' => $request['page']])->render();
+            } else {
+                return null;
+            }
+        }
+	$categoryId=$category->id;
+	$ausers=Article::select('user_id', DB::raw('SUM(views) as total_views'))->where('category_id', $category->id)->groupBy('user_id')->orderBy('total_views', 'desc')->limit(5)->get();
+	$users=[];
+	foreach ($ausers as $auser)
+	{
+	    $uu1=User::find($auser->user_id);
+	    $uu1->total=$auser->total_views;
+	    $users[]=$uu1;
+	}
+	$maxs=$category->articles()->orderBy('views', 'desc')->limit(5)->get();
         return view('category.articles', [
-        'title' => 'Все статьи в категории ' . $category->name,
+        'title' => 'Категория ' . $category->name,
+	'page' => $page,
+        'texttags' => $texttags,
+        'name' => $name,
+        'category' => $category,
+        'users' => $users,
+        'ausers' => $ausers,
+        'maxArticles' => $maxs,
+        'daterange' => $date,
+        'username' => $username,
+        'alltags' => $alltags,
         'articles' => $articles]);
-
     }
 
 

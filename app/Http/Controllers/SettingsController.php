@@ -59,8 +59,8 @@ class SettingsController extends Controller
     protected function getNotifications()
     {
         $user = Auth::user();
-        //$notifications=$user->notifications; don't work
-        $notifications = Notification::where('user_id', $user->id)->get(); // TODO: костыль
+        $notifications=$user->notifications;// don't work
+        //$notifications = Notification::where('user_id', $user->id)->get(); // TODO: костыль
         return view('user.notifications', ['notifications' => $notifications,
                        'title' => 'Уведомления']);
 

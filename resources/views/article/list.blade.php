@@ -1,9 +1,15 @@
 ﻿<div class="container">
-<div id="preload" align="center" style="display:none">
+<div id="preload{{$isAllArticles or ''}}" align="center" style="display:none">
     <div class="loader"></div>
 </div>
-<div id="items">
+<div id="items{{$isAllArticles or ''}}">
+
+@if (isset($isAllArticles) && $isAllArticles !='')
+<div>
+@else
 <div id="page{{$page or 0}}">
+
+@endif
 @php ($i=0)
 @foreach ($articles as $article)
     @if ($i == 0)
@@ -18,7 +24,7 @@
 @endforeach
 </div>
 </div>
-<div id="load" align="center" style="display:none">
+<div id="load{{$isAllArticles or ''}}" align="center" style="display:none">
     <div class="loader"></div>
 </div>
 </div>
@@ -28,12 +34,13 @@
 var isLoading=false;
 var debug=false;
 var enable={{$page or false}};
+var disable='{{$isAllArticles or ''}}';
 var first=true;
 var page=getUrlParameter('page');
 if(page===undefined){
     page='1';
 }
-if(enable){
+if(enable && disable==''){
     page=Number(page);
     $(window).on('scroll', function () {
             //console.log("scroll");
@@ -55,6 +62,7 @@ if(enable){
                 //alert(height);
 		//page++;
 		//$(document).documentElement.clientHeight
+			
 		    loadMore(nextp, true);
 		}else{
 			

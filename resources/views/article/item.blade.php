@@ -18,7 +18,7 @@
     @endif
     <div class="container row card-title">
     	<a href="{{ route('articles') }}/{{$article->id}}" class="card-link">
-	    <h4>{{$article->name}}</h4>
+	    <h4>{{$article->name}} ({{$article->views}}){{$article->tags_count or ''}}</h4>
     	</a>
     </div>
     <p class="card-text">{{$article->date}} 

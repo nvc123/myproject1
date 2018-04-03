@@ -26,25 +26,18 @@ class HomeController extends Controller
     }
 
 
-    /**
-     * Show the application dashboard.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index(Request $request)
+    public static function filters(Request $request, $mquery)
     {
-        $ids = $request['tags'];
-        $alltags = Tag::all();
-        $texttags = '';
+      	$ids = $request['tags'];
         $name = $request['name'];
         $date = $request['daterange'];
         $username = $request['username'];
-        $categories = Category::all();
         $category = $request['category'];
-        $title = 'Главная страница';
-        $mquery = Article::where('status', 'published');
         if ($name != null) {
-            $mquery = $mquery->where('name', 'like', '%' . $name . '%')->orWhere('description', 'like', '%' . $name . '%');
+            $mquery = $mquery->where(function($query) use ($name){
+		$query->where('name', 'like', '%' . $name . '%');
+		$query->orWhere('description', 'like', '%' . $name . '%');
+	    });
         } else {
             $name = '';
         }
@@ -77,21 +70,33 @@ class HomeController extends Controller
                     $query->where('tags.id', $id);
                 });
             }
-
-            $tags = Tag::find($ids);
-            $isFirst = true;
-            foreach ($tags as $tag) {
-                if ($isFirst) {
-                    $isFirst = false;
-                } else {
-                    $texttags .= ',';
-                }
-
-                $texttags .= $tag->id;
-            }
         }
+	return $mquery;
+    }
 
+    /**
+     * Show the application dashboard.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function index(Request $request)
+    {
+        $alltags = Tag::all();
+        $name = $request['name'];
+        $date = $request['daterange'];
+        $username = $request['username'];
+        $category = $request['category'];
+        $texttags = '';
+        $categories = Category::all();
+        $title = 'Главная страница';
+        $mquery = Article::where('status', 'published');
+        $mquery = self::filters($request, $mquery);
         $articles = $mquery->paginate(self::ARITCLES_PER_PAGE);
+	$ids = $request['tags'];
+	if ($ids != null && count($ids)>0){
+            $tags = Tag::find($ids);
+	    $texttags = $tags->implode('id', ',');
+	}
         //?tags[]=1&tags[]=13
         if ($request->ajax()) {
             if ($articles != null && count($articles) > 0) {

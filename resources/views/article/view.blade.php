@@ -88,7 +88,11 @@ ul {
 		    @endif
                 </div>
             </div>
-	    <h4 align="center" style="margin-top:20px">Комментарии:</h4>
+	    <div style="margin-top:20px">
+		<h4 align="center" >Похожие статьи:</h4>
+		@include('article.ajax', ['page' => '', 'articles' => $likeArticles])
+	    </div>
+	    <h2 align="center" style="margin-top:20px">Комментарии:</h2>
 	    <div style="margin-top:20px">
 		@each('comment.view', $article->comments, 'comment')
 		<div class="card">

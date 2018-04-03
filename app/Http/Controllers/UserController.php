@@ -7,7 +7,10 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Models\Article;
 use App\Http\Controllers\HomeController;
-
+use App\Models\Tag;
+use Carbon\Carbon;
+use App\Models\Category;
+	
 
 class UserController extends Controller
 {
@@ -40,7 +43,20 @@ class UserController extends Controller
         if ($page == null) {
             $page = 1;
         }
-	$articles=$user->articles()->paginate(HomeController::ARITCLES_PER_PAGE);
+	$alltags = Tag::all();
+        $name = $request['name'];
+        $date = $request['daterange'];
+        $category = $request['category'];
+        $texttags = '';
+        $categories = Category::all();
+        $ids = $request['tags'];
+	if ($ids != null && count($ids)>0){
+            $tags = Tag::find($ids);
+	    $texttags = $tags->implode('id', ',');
+	}
+        $mquery = $user->articles()->where('status', 'published');
+	$mquery = HomeController::filters($request, $mquery);
+	$articles = $mquery->paginate(HomeController::ARITCLES_PER_PAGE);
 	if ($request->ajax()) {
             if ($articles != null && count($articles) > 0) {
                 return view('article.ajax', [
@@ -50,17 +66,25 @@ class UserController extends Controller
                 return null;
             }
         }
+	$maxs=$user->articles()->orderBy('views', 'desc')->limit(5)->get();
         return view('user.view', [
         'user' => $user,
         'page' => $page,
         'articles' => $articles,
+        'maxArticles' => $maxs,
+        'texttags' => $texttags,
+        'name' => $name,
+        'daterange' => $date,
+        'categories' => $categories,
+        'category' => $category,
+        'alltags' => $alltags,
         'title' => 'Профиль пользователя ' . $user->name]);
 
     }
 
     public function myArticles(Request $request)
     {
-        $user = User::find(Auth::user()->id); // костыль для работы отношений
+        $user = Auth::user();
     	$page = $request['page'];
         if ($page == null) {
             $page = 1;

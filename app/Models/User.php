@@ -59,5 +59,11 @@ class User extends Authenticatable
     }
 
 
+    public function viewsByCategory($categoryId)
+    {
+        return $this->hasMany('App\Models\Article')->where('category_id', $categoryId)->sum('views');
+
+    }
+
     //
 }

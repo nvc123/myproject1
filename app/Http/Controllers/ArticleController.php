@@ -34,15 +34,20 @@ class ArticleController extends Controller
     }
 
 
+
     public function get($id)
     {
         $article = Article::find($id);
 	$isOwner=(($article->author->id)==(Auth::user()->id));
 	$isModerator=((Auth::user()->role=='moderator')||(Auth::user()->role=='admin'));
+	$article->views++;
+	$article->save();
+	$likes=self::likeArticles($article);
         return view('article.view', [
         'title' => $article->name,
         'isOwner' => $isOwner,
         'isModerator' => $isModerator,
+        'likeArticles' => $likes,
         'article' => $article]);
     }
 
@@ -188,6 +193,38 @@ class ArticleController extends Controller
         $article = Article::find($id);
 	$article->delete();
 	return redirect()->route('articles');
+    }
+
+    public static function likeArticles($article)
+    {
+    	$tagsid=[];
+	$tags=$article->tags;
+	foreach ($tags as $tag0)
+	{
+	    $tagsid[]=$tag0->id;
+	}
+	$articles=$article->category->articles()->where('id', '!=', $article->id)->withCount(['tags' => function ($query) use($tagsid)
+	{
+	    $query->whereIn('article_tags.tag_id', $tagsid);
+	}])->orderBy('tags_count', 'desc')->orderBy('views', 'desc')->limit(5)->get();
+	/*
+	$tagsCount=count($article->tags);
+	while($tagsCount>=0){
+	    $mquery=$category->articles();
+	    $tags=$article->tags()->limit($tagsCount)->get();
+	}
+	*/
+	return $articles;
+    }
+
+    public static function findByTags($mquery, $tags)
+    {
+    	foreach ($tags as $tag) {
+            $mquery = $mquery->whereHas('tags', function ($query) use ($tag) {
+            	$query->where('tags.id', $tag->id);
+            });
+        }
+	return $mquery;
     }
 
     /*
