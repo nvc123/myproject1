@@ -39,7 +39,7 @@ class Kernel extends ConsoleKernel
       	    	$articles=Article::all();
 	    	foreach ($articles as $article)
 	    	{
-	    	    $likes=ArticleController::forceLikeArticles($article);
+	    	    $likes=$article->forceLikeArticles();
 	    	    $minutes=60;
             	    Cache::put('like_articles_'.$article->id, $likes, $minutes); 
 	    	}

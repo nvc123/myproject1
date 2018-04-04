@@ -3,6 +3,12 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log;
+use App\Models\Category;
+use App\Models\Tag;
+
 
 class Article extends Model
 {
@@ -65,6 +71,45 @@ class Article extends Model
 
     }
 
+
+    public function likeArticles()
+    {
+	$article=$this;
+	if(Config::get('app.caching_like_articles')){
+	    $articles=Cache::get('like_articles_'.$article->id);
+	    if($articles==null){
+		$likes=$this->forceLikeArticles();
+	    	$minutes=60;
+            	Cache::put('like_articles_'.$article->id, $likes, $minutes);
+	    }
+	}else{
+	    $articles=$this->forceLikeArticles();
+	}
+	return $articles;
+    }
+
+    public function forceLikeArticles()
+    {
+	$article=$this;
+        $tagsid=[];
+	$tags=$article->tags;
+	foreach ($tags as $tag0)
+	{
+	    $tagsid[]=$tag0->id;
+	}
+	$articles=$article->category->articles()->where('id', '!=', $article->id)->withCount(['tags' => function ($query) use($tagsid)
+	{
+	    $query->whereIn('article_tags.tag_id', $tagsid);
+	}])->orderBy('tags_count', 'desc')->orderBy('views', 'desc')->limit(5)->get();
+	/*
+	$tagsCount=count($article->tags);
+	while($tagsCount>=0){
+	    $mquery=$category->articles();
+	    $tags=$article->tags()->limit($tagsCount)->get();
+	}
+	*/
+	return $articles;
+    }
 
     //
 }

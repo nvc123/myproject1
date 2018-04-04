@@ -43,7 +43,7 @@ class ArticleController extends Controller
 	$isModerator=((Auth::user()->role=='moderator')||(Auth::user()->role=='admin'));
 	$article->views++;
 	$article->save();
-	$likes=self::likeArticles($article);
+	$likes=$article->likeArticles();
         return view('article.view', [
         'title' => $article->name,
         'isOwner' => $isOwner,
@@ -199,55 +199,7 @@ class ArticleController extends Controller
 	return redirect()->route('articles');
     }
 
-    public static function likeArticles($article)
-    {
-	/*
-    	$tagsid=[];
-	$tags=$article->tags;
-	foreach ($tags as $tag0)
-	{
-	    $tagsid[]=$tag0->id;
-	}
-	$articles=$article->category->articles()->where('id', '!=', $article->id)->withCount(['tags' => function ($query) use($tagsid)
-	{
-	    $query->whereIn('article_tags.tag_id', $tagsid);
-	}])->orderBy('tags_count', 'desc')->orderBy('views', 'desc')->limit(5)->get();
-	*/
-	if(Config::get('app.caching_like_articles')){
-	    $articles=Cache::get('like_articles_'.$article->id);
-	    if($articles==null){
-		$likes=ArticleController::forceLikeArticles($article);
-	    	$minutes=60;
-            	Cache::put('like_articles_'.$article->id, $likes, $minutes);
-	    }
-	}else{
-	    $articles=self::forceLikeArticles($article);
-	}
-	return $articles;
-    }
-
-    public static function forceLikeArticles($article)
-    {
-    	$tagsid=[];
-	$tags=$article->tags;
-	foreach ($tags as $tag0)
-	{
-	    $tagsid[]=$tag0->id;
-	}
-	$articles=$article->category->articles()->where('id', '!=', $article->id)->withCount(['tags' => function ($query) use($tagsid)
-	{
-	    $query->whereIn('article_tags.tag_id', $tagsid);
-	}])->orderBy('tags_count', 'desc')->orderBy('views', 'desc')->limit(5)->get();
-	/*
-	$tagsCount=count($article->tags);
-	while($tagsCount>=0){
-	    $mquery=$category->articles();
-	    $tags=$article->tags()->limit($tagsCount)->get();
-	}
-	*/
-	return $articles;
-    }
-
+/*
     public static function findByTags($mquery, $tags)
     {
     	foreach ($tags as $tag) {
@@ -257,7 +209,7 @@ class ArticleController extends Controller
         }
 	return $mquery;
     }
-
+*/
     /*
     <div class="row">
         @each('comment.view', $article->comments, 'comment')
