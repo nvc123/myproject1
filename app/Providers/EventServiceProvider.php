@@ -10,6 +10,9 @@ use App\Models\User;
 use App\Models\Notification;
 use Illuminate\Support\Facades\Auth;
 use App\Notifications\MailNotification;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Config;
+use App\Http\Controllers\ArticleController;
 
 
 class EventServiceProvider extends ServiceProvider
@@ -44,6 +47,7 @@ class EventServiceProvider extends ServiceProvider
         Article::created(function ($article) {
             $user = $article->author;
             $user->incrArticlesCount();
+	    
         });
 	Notification::created(function ($notification) {
             $user = $notification->receiver;

@@ -9,7 +9,9 @@ use Illuminate\Support\Facades\Auth;
 use App\Models\File;
 use App\Models\Category;
 use App\Models\Tag;
-
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Log;
 
 class ArticleController extends Controller
 {
@@ -19,7 +21,6 @@ class ArticleController extends Controller
         $this->middleware('auth');
         $this->middleware('first');
         $this->middleware('exist.article');
-	//TODO: add middleware check articleexist.article
     }
 
 
@@ -199,6 +200,33 @@ class ArticleController extends Controller
     }
 
     public static function likeArticles($article)
+    {
+	/*
+    	$tagsid=[];
+	$tags=$article->tags;
+	foreach ($tags as $tag0)
+	{
+	    $tagsid[]=$tag0->id;
+	}
+	$articles=$article->category->articles()->where('id', '!=', $article->id)->withCount(['tags' => function ($query) use($tagsid)
+	{
+	    $query->whereIn('article_tags.tag_id', $tagsid);
+	}])->orderBy('tags_count', 'desc')->orderBy('views', 'desc')->limit(5)->get();
+	*/
+	if(Config::get('app.caching_like_articles')){
+	    $articles=Cache::get('like_articles_'.$article->id);
+	    if($articles==null){
+		$likes=ArticleController::forceLikeArticles($article);
+	    	$minutes=60;
+            	Cache::put('like_articles_'.$article->id, $likes, $minutes);
+	    }
+	}else{
+	    $articles=self::forceLikeArticles($article);
+	}
+	return $articles;
+    }
+
+    public static function forceLikeArticles($article)
     {
     	$tagsid=[];
 	$tags=$article->tags;

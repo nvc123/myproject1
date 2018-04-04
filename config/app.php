@@ -15,6 +15,8 @@ return [
 
     'name' => env('APP_NAME', 'Блог'),
 
+    'caching_like_articles' => true,
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment
