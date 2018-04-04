@@ -62,3 +62,25 @@ Route::post('/articles/edit/{id}', 'ArticleController@postArticle');
 Route::get('/articles/remove/{id}', 'ArticleController@removeArticle')->name('article_remove');
 
 Route::get('/settings/articles', 'UserController@myArticles')->name('my_articles');
+
+Route::get('/category/{id}/edit', 'AdminController@editCategory');
+
+Route::get('/category/{id}/remove', 'AdminController@removeCategory')->name('remove_category');
+
+Route::get('/subscribe/{id}/user', 'SubscribeController@onUser')->name('subscribe_on_user');
+
+Route::get('/subscribe/{id}/category', 'SubscribeController@onCategory')->name('subscribe_on_category');
+
+Route::get('/user/{id}/lock', 'AdminController@lockUser')->name('lock_user');
+
+Route::get('/user/{id}/unlock', 'AdminController@unlockUser')->name('unlock_user');
+
+Route::get('/users/create', 'AdminController@createUserPage')->name('create_user');
+
+Route::post('/users/create', 'AdminController@createUser');
+
+Route::get('/user/{id}/edit', 'AdminController@editUserPage')->name('edit_user');
+
+Route::post('/user/{id}/edit', 'AdminController@editUser');
+
+Route::get('/user/{id}/remove', 'AdminController@removeUser')->name('remove_user');

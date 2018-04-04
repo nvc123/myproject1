@@ -7,7 +7,7 @@
 	    <a href="{{route('remove_all_notifications')}}" class="btn btn-danger float-right clickable close-icon" data-effect="fadeOut">
 	    	<span aria-hidden="true">Удалить все уведомления</span>
 	    </a>
-	    <h1 class="bd-title" id="content" style="text-align:center">{{$title}}</h1>
+	    <h1 class="bd-title" id="content" style="text-align:center">{{$title}}({{count($notifications)}})</h1>
 	    
 	    @each('user.notification', $notifications, 'notification')
 	</div>

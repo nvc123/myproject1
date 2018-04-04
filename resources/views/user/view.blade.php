@@ -29,6 +29,34 @@
     			<h2 align="center">{{$user->name}}</h2>
 		    </div>
 		    <p class="card-text">{{$user->text}}</p>
+		    <div style="margin-top:20px">
+			@if ($isSubscribed)
+
+			@else
+			<a href="{{route('subscribe_on_user', ['id' => $user->id])}}"  class="btn btn-success clickable" data-effect="fadeOut">
+	    		    <span aria-hidden="true">Подписаться</span>
+	    		</a>
+			@endif
+			@if ($isAdmin)
+			    <a href="{{route('edit_user', ['id' => $user->id])}}"  class="btn btn-primary clickable" data-effect="fadeOut">
+	    		    	<span aria-hidden="true">Редактировать</span>
+			    </a>
+			    @if ($user->status)
+				<a href="{{route('lock_user', ['id' => $user->id])}}"  class="btn btn-warning clickable" data-effect="fadeOut">
+	    		    	    <span aria-hidden="true">Заблокировать</span>
+				</a>
+			    @else
+				<a href="{{route('unlock_user', ['id' => $user->id])}}"  class="btn btn-warning clickable" data-effect="fadeOut">
+	    		    	    <span aria-hidden="true">Разблокировать</span>
+				</a>
+			    @endif
+			    @if ($user->id != Auth::user()->id)
+			    	<a href="{{route('remove_user', ['id' => $user->id])}}"  class="btn btn-danger clickable" data-effect="fadeOut">
+	    		    	    <span aria-hidden="true">Удалить</span>
+			    	</a>
+			    @endif
+			@endif
+		    </div>
 		</div>
 	    </div>
 	    <h2 align="center" style="margin-top:20px">Лучшие статьи пользователя</h2>

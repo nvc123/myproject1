@@ -25,8 +25,15 @@ class UserController extends Controller
 
     public function index()
     {
+	$users=User::all();
+	$isAdmin=(Auth::user()->role=='admin');
+        
         //от {{$article->author()->name}} в категории {{$article->category()->name}}
-        return view('article.test', []);
+        return view('user.users', [
+	    'title' => 'Пользователи',
+	    'isAdmin' => $isAdmin,
+	    'users' => $users,
+	    ]);
 
     }
 
@@ -67,10 +74,17 @@ class UserController extends Controller
             }
         }
 	$maxs=$user->articles()->orderBy('views', 'desc')->limit(5)->get();
+	$cuser = Auth::user();
+	$target=User::find($id);
+	$subscribesCount=$target->subscribes()->where('user_id', $cuser->id)->count();
+	$isSubscribed=($subscribesCount!=0);
+	$isAdmin=($cuser->role=='admin');
         return view('user.view', [
         'user' => $user,
         'page' => $page,
         'articles' => $articles,
+        'isSubscribed' => $isSubscribed,
+        'isAdmin' => $isAdmin,
         'maxArticles' => $maxs,
         'texttags' => $texttags,
         'name' => $name,

@@ -3,35 +3,27 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Auth\AuthenticationException;
-use Illuminate\Support\Facades\Auth;
-use App\Models\Article;
+use App\Models\Category;
 
-class ArticleExist
+class CategoryExist
 {
-
-
     /**
      * Handle an incoming request.
      *
      * @param  \Illuminate\Http\Request  $request
      * @param  \Closure  $next
-     * @param  string|null  $guard
      * @return mixed
      */
-    public function handle($request, Closure $next, $guard = null)
+    public function handle($request, Closure $next)
     {
 	$id=$request->route('id');
         if ($id!=null&&$id!=0) {
-	    $article=Article::find($id);
+	    $article=Category::find($id);
 	    if($article==null){
-            	return redirect()->route('home'); //TODO: error
+            	return redirect()->route('categories'); //TODO: error
 	    }
         }
 
         return $next($request);
-
     }
-
-
 }

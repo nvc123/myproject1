@@ -89,6 +89,11 @@ function getUrlParameter(sParam) {
 				Категории
                             </a>
 			</li>
+			<li class="nav-item dropdown">
+			    <a class="nav-link" href="{{route('users')}}" role="button" aria-haspopup="true" aria-expanded="false">
+				Пользователи
+                            </a>
+			</li>
 			@if (Auth::user()!=null&& (Auth::user()->role=='moderator' || Auth::user()->role=='admin'))
 			<li class="nav-item dropdown">
 			    <a class="nav-link" href="{{route('moderator')}}" role="button" aria-haspopup="true" aria-expanded="false">

@@ -73,7 +73,7 @@
 
 @if (!isset($withoutName))
 <div id="find_block" class="container row" style="display:none">
-    	<form method="GET" class="w-100" action="/{{ $filterAction or Request::path() }}">
+    	<form method="GET" class="w-100" action="{{ $filterAction or Request::url() }}">
 	
 	    <div class="form-group row">
                 <label for="name" class="col-md-4 col-form-label text-md-right">Поиск по названию/описанию</label>

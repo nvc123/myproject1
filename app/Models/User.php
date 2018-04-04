@@ -32,7 +32,6 @@ class User extends Authenticatable
     public function targets()
     {
         return $this->hasMany('App\Models\Subscribe');
-
     }
 
 
@@ -46,7 +45,6 @@ class User extends Authenticatable
     public function subscribes()
     {
         return $this->morphMany('App\Models\Subscribe', 'target');
-
     }
 
 

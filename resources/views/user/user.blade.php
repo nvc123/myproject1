@@ -12,7 +12,7 @@
 	@endif
 	<div class="container row card-title">
 	    <a href="{{ route('users') }}/{{$user->id}}" class="card-link">
-	    	<h4>{{$user->name}} ({{$user->total}})</h4>
+	    	<h4>{{$user->name}} ({{$user->total or ''}})</h4>
     	    </a>
     	</div>
 	<p class="card-text" style="margin-top:20px">{{$user->text}}</p>

@@ -38,7 +38,7 @@ class ArticleController extends Controller
     public function get($id)
     {
         $article = Article::find($id);
-	$isOwner=(($article->author->id)==(Auth::user()->id));
+	$isOwner=(($article->author->id==Auth::user()->id)||(Auth::user()->role=='admin'));
 	$isModerator=((Auth::user()->role=='moderator')||(Auth::user()->role=='admin'));
 	$article->views++;
 	$article->save();
@@ -175,7 +175,7 @@ class ArticleController extends Controller
     public function statusModerated($id)
     {
         $article = Article::find($id);
-	if(($article->author->id==Auth::user()->id)&&$article->status=='new'){
+	if((($article->author->id==Auth::user()->id)||(Auth::user()->role=='admin'))&&$article->status=='new'){
 	    $article->status='moderated';
 	    $article->save();
 	    return view('moderator.successfully', [
@@ -191,7 +191,10 @@ class ArticleController extends Controller
     public function removeArticle($id)
     {
         $article = Article::find($id);
+	$user=$article->author;
 	$article->delete();
+	$user->count--;
+	$user->save();
 	return redirect()->route('articles');
     }
 

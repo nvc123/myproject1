@@ -38,6 +38,5 @@
 </div>
 </div>
     <a href="{{ route('articles') }}/{{$article->id}}" class="btn btn-primary">Читать далее&ensp;({{$article->comments_count}})</a>
-
 </div>
 </div>

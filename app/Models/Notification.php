@@ -15,6 +15,7 @@ class Notification extends Model
 ids:
 0 - article status changed { "article": id, "status": status , "text": comment  }
 1 - new comment { "article": id}
+2 - subscribe { "article" : id}
 */
         
     public function receiver()

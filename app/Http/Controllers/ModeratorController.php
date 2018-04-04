@@ -7,6 +7,7 @@ use App\Models\Article;
 use App\Models\Tag;
 use App\Models\Category;
 use App\Models\Notification;
+use App\Http\Controllers\SubscribeController;
 
 class ModeratorController extends Controller
 {
@@ -15,6 +16,7 @@ class ModeratorController extends Controller
     {
         $this->middleware('auth');
         $this->middleware('first');
+        $this->middleware('moderator');
     }
 
     public function index()
@@ -35,6 +37,10 @@ class ModeratorController extends Controller
 	    $user=$article->author;
 	    Notification::create(['user_id' => $user->id, 'type' => 0,
 	        'payload' => '{ "article":' . $article->id . ', "status": "published"}']);
+	    $ids=[$user->id];
+	    $nids=SubscribeController::sendNotification($user, $article->id, $ids);
+	    $ids=array_merge($ids, $nids);
+	    $nids=SubscribeController::sendNotification($article->category, $article->id, $ids);
 	    return view('moderator.successfully', [
             'title' => 'Статья опубликована',
             'listType' => 'moderator',

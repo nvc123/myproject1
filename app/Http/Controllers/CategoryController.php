@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Article;
 use App\Models\Category;
 use App\Http\Controllers\HomeController;
+use Illuminate\Support\Facades\Auth;
 use App\Models\Tag;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\DB;
@@ -14,17 +15,25 @@ use App\Models\User;
 class CategoryController extends Controller
 {
     //
+    public function __construct()
+    {
+        $this->middleware('auth');
+        $this->middleware('first');
+        $this->middleware('exist.category');
+    }
 
     public function index()
     {
         //от {{$article->author()->name}} в категории {{$article->category()->name}}
         $articles = Category::all();
+        $user = Auth::user();
+	$isAdmin=($user->role=='admin');
         return view('category.index', [
         'title' => 'Все Категории',
+        'isAdmin' => $isAdmin,
         'categories' => $articles]);
 
     }
-
 
     public function articles($id, Request $request)
     {
@@ -66,6 +75,10 @@ class CategoryController extends Controller
 	    $users[]=$uu1;
 	}
 	$maxs=$category->articles()->orderBy('views', 'desc')->limit(5)->get();
+        $cuser = Auth::user();
+	$target=$category;
+	$subscribesCount=$target->subscribes()->where('user_id', $cuser->id)->count();
+	$isSubscribed=($subscribesCount!=0);
         return view('category.articles', [
         'title' => 'Категория ' . $category->name,
 	'page' => $page,
@@ -74,6 +87,7 @@ class CategoryController extends Controller
         'category' => $category,
         'users' => $users,
         'ausers' => $ausers,
+        'isSubscribed' => $isSubscribed,
         'maxArticles' => $maxs,
         'daterange' => $date,
         'username' => $username,

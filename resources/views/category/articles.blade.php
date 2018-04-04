@@ -17,6 +17,15 @@
     <div class="row justify-content-center">
 	<h2 class="bd-title" id="content" align="center">{{$title}}</h2>
 	@include('article.filters', ['withoutCategory' => 'true'])
+		    <div class="w-100" style="margin-top:20px">
+			@if ($isSubscribed)
+
+			@else
+			<a href="{{route('subscribe_on_category', ['id' => $category->id])}}"  class="btn btn-success clickable" data-effect="fadeOut">
+	    		    <span aria-hidden="true">Подписаться</span>
+	    		</a>
+			@endif
+		    </div>
 	<div>
 	    <h2 align="center" style="margin-top:20px">Популярные статьи категории</h2>
 	    @include('article.ajax', ['page' => '', 'articles' => $maxArticles])

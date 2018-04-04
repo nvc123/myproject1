@@ -33,6 +33,13 @@
 		
 		<a href="{{route('articles')}}/{{$jsonObj['article']}}">У вашей статьи появились новые комментарии</a>
 	    @endif
+	    @if ($notification->type==2)
+		<div class="card-title">
+		    <h4>Новая публикация</h4>
+    		</div>
+		
+		<a href="{{route('articles')}}/{{$jsonObj['article']}}">Среди ваших подписок опубликована новая статья</a>
+	    @endif
 	</p>
     </div>
 </div>
